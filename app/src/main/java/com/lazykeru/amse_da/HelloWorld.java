@@ -1,12 +1,15 @@
 package com.lazykeru.amse_da;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivityOld extends Activity {
+public class HelloWorld extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,6 +18,24 @@ public class MainActivityOld extends Activity {
         LinearLayout l1 = new LinearLayout(this);
         l1.setOrientation(LinearLayout.VERTICAL);
 
+        /** Init an edit text class **/
+        EditText t = new EditText(this);
+
+        /** Init a Button class **/
+        Button b = new Button(this);
+        /** Para of the button **/
+        b.setText("Say hello");
+        b.setHeight(200);
+        /** On click event do **/
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t.setText("bonjour");
+            }
+        });
+        /** Add to layout the button and edit text **/
+        l1.addView(t);
+        l1.addView(b);
         /** Init the TextView class **/
         TextView t1 = new TextView(this);
         /** Writting the content **/
