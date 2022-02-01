@@ -2,9 +2,9 @@
 
 UV AMSE Développement Android
 
-## To do list : 
-- [X] Hello World
-- [ ] ...
+## To do list :
+- [X] Hello World - first
+- [ ] Calculatrice simple - tp1
 
 ## Workflow
 
@@ -12,7 +12,7 @@ UV AMSE Développement Android
 
 ## Commit convention
 
-- BREAKING CHANGE: 
+- BREAKING CHANGE:
 - build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
 - ci: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)
 - docs: Documentation only changes
