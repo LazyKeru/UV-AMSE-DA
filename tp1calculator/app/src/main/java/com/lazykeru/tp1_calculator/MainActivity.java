@@ -39,38 +39,33 @@ public class MainActivity extends AppCompatActivity {
             int id = getResources().getIdentifier(temp_id, "id", getPackageName());
             calculator[i] = (Button)  findViewById(id);
             // Associating each Buttons with an event listener
-            if(i<0){
-                Log.e("Main: ", "id of the button is smaller than 0");
-            }else
-            // [ b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 ] numbers 0 to 9
-            if(i<10){
+            if(i<0) Log.e("Main: ", "id of the button is smaller than 0");
+                // [ b0, b1, b2, b3, b4, b5, b6, b7, b8, b9 ] numbers 0 to 9
+            else if(i<10)
                 calculator[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         screen.setText(_cal.valClick(finalI));
                     }
                 });
-            }else
             // [ b10, b11, b12, b13 ] operators /, *, -, +
-            if(i < 14){
+            else if(i < 14)
                 calculator[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         screen.setText(_cal.opClick(finalI));
                     }
                 });
-            }else
             // [ b14 ] the coma ,
-            if(i==14){
+            else if(i==14)
                 calculator[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         screen.setText(_cal.comaClick());
                     }
                 });
-            }else
             // [ b15 ] equal sign =
-            if(i==15){
+            else if(i==15)
                 calculator[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -78,9 +73,8 @@ public class MainActivity extends AppCompatActivity {
                         _cal.reset();
                     }
                 });
-            }else
             // i out of bound
-            if(i>15){
+            else if(i>15){
                 Log.e("Main: ", "id of the button is greater than 15");
             }
         }
@@ -145,7 +139,7 @@ class Calculator{
         return "Unknown Error";
     }
 
-    // [ b15 ] equal sign =
+    // [ b15 ] equal sign =, rappel 10-13 represents the value that our operator can take
     String resClick(){
         Log.i("Calculator: ","Calculating");
         if( this.val1.isEmpty() != true && this.val1.isEmpty() != true && this.op.isEmpty() != true && this.res.isEmpty() == true){
