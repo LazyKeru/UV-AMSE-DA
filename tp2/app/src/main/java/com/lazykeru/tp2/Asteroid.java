@@ -7,8 +7,6 @@ import android.widget.ImageView;
 
 
 public class Asteroid {
-    float x;
-    float y;
     int size;
     int duration;
     Path path = new Path();
@@ -43,27 +41,12 @@ public class Asteroid {
         setSize(250);
         // Default asteroid size
         setDuration(10000);
-        // Default Cord X and Y
-        setX(1000f);
-        setY(1000f);
         //setAsteroidAnimation(ObjectAnimator.ofFloat(this.asteroid, "translationX", 100f));
     }
 
     /** CONSTRUCTOR END **/
 
     /** SETTER START **/
-
-    public void setX(float x) {
-        this.x = x;
-        // set the new cords
-        this.asteroid.setX(x);
-    }
-
-    public void setY(float y) {
-        this.y = y;
-        // set the new cords
-        this.asteroid.setY(y);
-    }
 
     public void setSize(int size) {
         this.size = size;
@@ -91,6 +74,13 @@ public class Asteroid {
         this.asteroidAnimation.setDuration(this.duration);
         this.asteroidAnimation.setRepeatCount(Animation.INFINITE);
         this.asteroidAnimation.start();
+    }
+
+    public void moveStaticAsteroid(float x, float y) {
+        // set the new cords
+        this.asteroid.setX(x);
+        // set the new cords
+        this.asteroid.setY(y);
     }
 
     /** METHODS END **/

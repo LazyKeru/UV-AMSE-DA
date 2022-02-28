@@ -1,6 +1,7 @@
 package com.lazykeru.tp2;
 
 import android.animation.ObjectAnimator;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,14 @@ public class PlayScreen extends Fragment {
         //animation.start();
         Asteroid ast1 = new Asteroid(asteroid1);
         ast1.startAnimation();
+        ImageView jOut = view.findViewById(R.id.jOut);
+        ImageView jCent = view.findViewById(R.id.jCent);
+        Joystick joystick = new Joystick(
+                jOut,
+                jCent,
+                1000,
+                1000
+        );
         return view;
 
     }
