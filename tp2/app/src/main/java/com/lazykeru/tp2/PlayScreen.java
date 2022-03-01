@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.lazykeru.tp2.Asteroid;
+import com.lazykeru.tp2.TieFighter;
 
 import androidx.fragment.app.Fragment;
 
@@ -25,13 +26,18 @@ public class PlayScreen extends Fragment {
         //animation.start();
         Asteroid ast1 = new Asteroid(asteroid1);
         ast1.startAnimation();
-        ImageView jOut = view.findViewById(R.id.jOut);
-        ImageView jCent = view.findViewById(R.id.jCent);
+        /** TieFighter init **/
+        ImageView tFight = view.findViewById(R.id.tieFighter);
+        TieFighter tieFighter = new TieFighter(
+                tFight
+        );
+        //To Do
+        ImageView jOut = view.findViewById(R.id.jOut); //Joystick image outside
+        ImageView jCent = view.findViewById(R.id.jCent); // Joystick image center
         Joystick joystick = new Joystick(
                 jOut,
                 jCent,
-                1000,
-                1000
+                tieFighter
         );
         return view;
 

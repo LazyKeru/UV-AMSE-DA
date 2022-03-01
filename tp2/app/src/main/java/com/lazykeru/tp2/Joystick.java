@@ -13,10 +13,9 @@ public class Joystick {
     float fy; // Position x of finger
     float delta_fx; // starting delta y of finger
     float delta_fy; // starting delta x of finger
-    float dx; // movement x for ship
-    float dy; // movement y for ship
+    TieFighter tieFighter;
 
-    public Joystick(View padOutline, View padCenter,int baseX, int baseY) {
+    public Joystick(View padOutline, View padCenter,TieFighter tieFighter) {
         this.padCenter = padCenter;
         this.padOutline = padOutline;
         // Origin
@@ -24,6 +23,7 @@ public class Joystick {
                 return onTouch(v, e);
             }
         );
+        this.tieFighter = tieFighter;
     }
 
     public  void setPadDefaultPosition(){
@@ -67,18 +67,18 @@ public class Joystick {
         switch (e.getAction()){
             case MotionEvent.ACTION_DOWN:
                 initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y
-                this.dx = this.padCenter.getX() - e.getRawX();
-                this.dy = this.padCenter.getY() - e.getRawY();
                 updateLatestFingerPosition(e);
                 setDeltaOfFingerPosition();
                 break;
             case MotionEvent.ACTION_MOVE:
-                this.dx = this.padCenter.getX() - e.getRawX();
-                this.dy = this.padCenter.getY() - e.getRawY();
                 updateLatestFingerPosition(e);
                 setPadPosition(
                         this.fx + this.delta_fx,
                         this.fy + this.delta_fy
+                );
+                tieFighter.updateTieFighterPosition(
+                        tieFighter.x + this.padCenter.getX() - this.origin_x,
+                        tieFighter.y + this.padCenter.getY() - this.origin_y
                 );
                 break;
             case MotionEvent.ACTION_CANCEL: // finger exits the screen surface
