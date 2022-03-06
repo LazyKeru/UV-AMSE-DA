@@ -3,16 +3,25 @@ package com.lazykeru.tp2;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
+import java.util.concurrent.TimeUnit;
 
 
 public class TieFighter{
     View TieFighter;
+    View Explosion;
     float x, y, delta_x, delta_y;
     Rect hitBox;
+    boolean isMoving;
+    boolean isAlive;
 
-    public TieFighter(View TieFighter){
+    public TieFighter(View TieFighter,View Explosion){
         this.TieFighter = TieFighter;
-        setSize(200);
+        this.Explosion = Explosion;
+        this.Explosion.setVisibility(View.INVISIBLE);
+        this.isAlive = true;
+        this.isMoving = false;
+        setSizeTieFighter(200);
+        setSizeExplosion(150);
         setHitBox();
     }
 
@@ -23,8 +32,10 @@ public class TieFighter{
         @Override
         public void run() {
             handlerForMovingTie.postDelayed(this, 10);
-            System.out.println("Updating Tie Fighter Position");
-            updateTieFighterPosition(); // Update TieFighter position
+            if((isAlive == true) && (isMoving == true)){
+                System.out.println("Updating Tie Fighter Position");
+                updateTieFighterPosition(); // Update TieFighter position
+            }
         }
     };
 
@@ -39,27 +50,16 @@ public class TieFighter{
         );
     }
 
-
-    /** First try using a HitBox : didn't work :(**/
-    /**
-    public void setHitBox() {
-        this.hitBox = new Rect(
-                this.TieFighter.getLeft(),
-                this.TieFighter.getTop(),
-                this.TieFighter.getRight(),
-                this.TieFighter.getBottom()
-        );
+    public void setIsMoving(boolean bool) {
+        this.isMoving = bool;
     }
-     **/
 
     public void updateY(float delta_y) {
-        this.y =+ delta_y;
-        TieFighter.setY(this.y);
+        TieFighter.setY(TieFighter.getY() + delta_y);
     }
 
     public void updateX(float delta_x) {
-        this.x =+ delta_x;
-        TieFighter.setX(this.x);
+        TieFighter.setX(TieFighter.getX() + delta_x);
     }
 
     public void updateDelta(float delta_x, float delta_y){
@@ -72,8 +72,27 @@ public class TieFighter{
         updateY(this.delta_y);
     }
 
-    public void setSize(int size) {
+    public void setSizeTieFighter(int size) {
         this.TieFighter.getLayoutParams().height = size;
         this.TieFighter.getLayoutParams().width = size;
+    }
+
+    public void setSizeExplosion(int size) {
+        this.Explosion.getLayoutParams().height = size;
+        this.Explosion.getLayoutParams().width = size;
+    }
+
+    public void explosion(){
+        int[] location = new int[2];
+        this.TieFighter.getLocationOnScreen(location);
+        this.Explosion.setY(location[1]);
+        this.Explosion.setX(location[0]);
+        this.Explosion.setVisibility(View.VISIBLE);
+        this.TieFighter.setVisibility(View.INVISIBLE);
+    }
+
+    public void tieCrashed(){
+        this.isAlive = false;
+        explosion();
     }
 }

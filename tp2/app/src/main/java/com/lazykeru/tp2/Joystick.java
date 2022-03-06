@@ -24,6 +24,7 @@ public class Joystick {
             }
         );
         this.tieFighter = tieFighter;
+        this.tieFighter.movingTie.run(); // Starts the runnable to move the TieFighter
     }
 
     public  void setPadDefaultPosition(){
@@ -69,7 +70,6 @@ public class Joystick {
                 initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y
                 updateLatestFingerPosition(e);
                 setDeltaOfFingerPosition();
-                this.tieFighter.movingTie.run(); // Starts the runnable
                 break;
             case MotionEvent.ACTION_MOVE:
                 updateLatestFingerPosition(e);
@@ -78,14 +78,20 @@ public class Joystick {
                         this.fy + this.delta_fy
                 );
                 tieFighter.updateDelta(
-                        tieFighter.x + (this.padCenter.getX() - this.origin_x) / 4,
-                        tieFighter.y + (this.padCenter.getY() - this.origin_y) / 4
+                        (this.padCenter.getX() - this.origin_x) / 4,
+                        (this.padCenter.getY() - this.origin_y) / 4
                 );
+                this.tieFighter.setIsMoving(
+                        true
+                ); // the ship should move
                 break;
             case MotionEvent.ACTION_CANCEL: // finger exits the screen surface
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_UP:
                 setPadDefaultPosition();
+                this.tieFighter.setIsMoving(
+                        false
+                ); // the ship shouldn't move
                 break;
             default:
                 return false;

@@ -30,7 +30,8 @@ public class PlayScreen extends Fragment {
         ImageView tFight_alive = view.findViewById(R.id.tieFighter);
         ImageView tFight_dead = view.findViewById(R.id.explosion);
         TieFighter tieFighter = new TieFighter(
-                tFight_alive
+                tFight_alive,
+                tFight_dead
         );
         //To Do
         ImageView jOut = view.findViewById(R.id.jOut); //Joystick image outside

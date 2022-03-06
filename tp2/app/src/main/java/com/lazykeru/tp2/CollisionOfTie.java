@@ -21,6 +21,7 @@ public class CollisionOfTie {
             System.out.println("Checking for collision");
             if(areTheyInCollision() == true){
                 System.out.println("Boom...");
+                tieFighter.tieCrashed();
             }
         }
     };
