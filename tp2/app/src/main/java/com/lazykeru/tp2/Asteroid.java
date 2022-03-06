@@ -2,6 +2,7 @@ package com.lazykeru.tp2;
 
 import android.animation.ObjectAnimator;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
@@ -12,6 +13,7 @@ public class Asteroid {
     Path path = new Path();
     ObjectAnimator asteroidAnimation;
     ImageView asteroid;
+    Rect hitBox;
 
     /** CONSTRUCTOR START **/
 
@@ -47,6 +49,17 @@ public class Asteroid {
     /** CONSTRUCTOR END **/
 
     /** SETTER START **/
+
+    public void setHitBox() {
+        int [] posistion = new int[2];
+        this.asteroid.getLocationOnScreen(posistion);
+        this.hitBox = new Rect(
+                posistion[0],
+                posistion[1],
+                posistion[0] + this.asteroid.getMeasuredWidth(),
+                posistion[1] + this.asteroid.getMeasuredHeight()
+        );
+    }
 
     public void setSize(int size) {
         this.size = size;

@@ -27,9 +27,10 @@ public class PlayScreen extends Fragment {
         Asteroid ast1 = new Asteroid(asteroid1);
         ast1.startAnimation();
         /** TieFighter init **/
-        ImageView tFight = view.findViewById(R.id.tieFighter);
+        ImageView tFight_alive = view.findViewById(R.id.tieFighter);
+        ImageView tFight_dead = view.findViewById(R.id.explosion);
         TieFighter tieFighter = new TieFighter(
-                tFight
+                tFight_alive
         );
         //To Do
         ImageView jOut = view.findViewById(R.id.jOut); //Joystick image outside
@@ -39,6 +40,8 @@ public class PlayScreen extends Fragment {
                 jCent,
                 tieFighter
         );
+        CollisionOfTie ast1Tie = new CollisionOfTie(tieFighter, ast1);
+        ast1Tie.collision.run();
         return view;
 
     }

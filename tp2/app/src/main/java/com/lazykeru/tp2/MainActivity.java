@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -25,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity{
     String _title = "Star Wars TP2";
     @Override
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

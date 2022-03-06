@@ -69,6 +69,7 @@ public class Joystick {
                 initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y
                 updateLatestFingerPosition(e);
                 setDeltaOfFingerPosition();
+                this.tieFighter.movingTie.run(); // Starts the runnable
                 break;
             case MotionEvent.ACTION_MOVE:
                 updateLatestFingerPosition(e);
@@ -76,9 +77,9 @@ public class Joystick {
                         this.fx + this.delta_fx,
                         this.fy + this.delta_fy
                 );
-                tieFighter.updateTieFighterPosition(
-                        tieFighter.x + this.padCenter.getX() - this.origin_x,
-                        tieFighter.y + this.padCenter.getY() - this.origin_y
+                tieFighter.updateDelta(
+                        tieFighter.x + (this.padCenter.getX() - this.origin_x) / 4,
+                        tieFighter.y + (this.padCenter.getY() - this.origin_y) / 4
                 );
                 break;
             case MotionEvent.ACTION_CANCEL: // finger exits the screen surface
