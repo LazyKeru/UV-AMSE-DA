@@ -1,22 +1,13 @@
 package com.lazykeru.tp2;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-
-import androidx.fragment.app.Fragment;
-
-import java.util.concurrent.TimeUnit;
 
 
-public class TieFighter{
+
+public class TieFighter {
+    /** TieFighter var **/
     View TieFighter;
     View Explosion;
     PlayScreen parent;
@@ -24,6 +15,11 @@ public class TieFighter{
     Rect hitBox;
     boolean isMoving;
     boolean isAlive;
+    /** Accelerometer var **/
+    boolean accelometerActive = false;
+    float gammaX = 0; // Will use
+    float gammaY = 0; // Will use
+    float gammaZ = 0; // Will not use as of now
 
     public TieFighter(View TieFighter,View Explosion, PlayScreen parent){
         this.parent = parent;
@@ -44,8 +40,12 @@ public class TieFighter{
         public void run() {
             handlerForMovingTie.postDelayed(this, 10);
             if((isAlive == true) && (isMoving == true)){
-                System.out.println("Updating Tie Fighter Position");
-                updateTieFighterPosition(); // Update TieFighter position
+                System.out.println("Updating Tie Fighter Position with joystick");
+                updateTieFighterPositionJoystick(); // Update TieFighter position
+            }
+            if((isAlive == true) && (accelometerActive == true)){
+                System.out.println("Updating Tie Fighter Position with accelometer");
+                updateTieFighterPositionAccelometer(); // Update TieFighter position
             }
         }
     };
@@ -110,9 +110,14 @@ public class TieFighter{
         this.delta_y = delta_y;
     }
 
-    public void updateTieFighterPosition(){
+    public void updateTieFighterPositionJoystick(){
         updateX(this.delta_x);
         updateY(this.delta_y);
+    }
+
+    public void updateTieFighterPositionAccelometer(){
+        updateX(this.gammaX);
+        updateY(this.gammaY);
     }
 
     public void setSizeTieFighter(int size) {
@@ -156,5 +161,12 @@ public class TieFighter{
     public void stopGame(){
         this.TieFighter.setVisibility(View.INVISIBLE);
         //this.Explosion.setVisibility(View.INVISIBLE);
+    }
+
+    public void updateAccelerometer(float gammaX, float gammaY, float gammaZ){
+        this.accelometerActive = true;
+        this.gammaX = gammaX;
+        this.gammaY = gammaY;
+        this.gammaZ = gammaZ;
     }
 }

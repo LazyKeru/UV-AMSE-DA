@@ -27,6 +27,10 @@ public class Joystick {
         this.tieFighter = tieFighter;
         this.tieFighter.movingTie.run(); // Starts the runnable to move the TieFighter
         this.setInactive(); // The game has not yet started
+
+        /** Doesn't seem to work **/
+        // this.origin_x = this.padCenter.getX();
+        // this.origin_y = this.padCenter.getY();
     }
 
     public void setInactive(){
@@ -131,7 +135,7 @@ public class Joystick {
         if(this.active==false){return false;}
         switch (e.getAction()){
             case MotionEvent.ACTION_DOWN:
-                initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y
+                initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y, doesn't work in the constructor
                 updateLatestFingerPosition(e);
                 setDeltaOfFingerPosition();
                 break;

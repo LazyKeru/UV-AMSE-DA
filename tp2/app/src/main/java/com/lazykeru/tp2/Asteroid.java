@@ -17,33 +17,46 @@ public class Asteroid {
 
     /** CONSTRUCTOR START **/
 
-    public Asteroid(ImageView asteroid){
+    // For custom path following Asteroid
+    public Asteroid(ImageView asteroid, int size, Path path, int duration){
         // Default asteroid view
         this.asteroid = asteroid;
         // default asteroid path
-        path.arcTo(
-                0f,
-                0f,
-                1000f,
-                1000f,
-                0f,
-                -359f,
-                true
-        );
-        // Default asteroid animation
+        setPath(path);
+        // custom Path
         setAsteroidAnimation(
             ObjectAnimator.ofFloat(
                     asteroid,
                     "translationX", // x Property Name
                     "translationY", // y Property Name
-                    this.path // Path the loop will follow
+                    this.path// Path the loop will follow
             )
         );
         // Default asteroid size
-        setSize(250);
+        setSize(size);
         // Default asteroid size
-        setDuration(10000);
+        setDuration(duration);
         //setAsteroidAnimation(ObjectAnimator.ofFloat(this.asteroid, "translationX", 100f));
+    }
+
+    // For straight line following Asteroid
+    public Asteroid(ImageView asteroid, int x, int y, int size, float translationX, int duration){
+        // Default asteroid view
+        this.asteroid = asteroid;
+        setSize(size);
+        asteroid.setX(x);
+        asteroid.setY(y);
+        // default asteroid path
+        setPath(path);
+        // straight asteroid animation
+        setAsteroidAnimation(
+                ObjectAnimator.ofFloat(
+                        asteroid,
+                        "translationX", // x Property Name
+                        translationX
+                )
+        );
+        setDuration(duration);
     }
 
     /** CONSTRUCTOR END **/

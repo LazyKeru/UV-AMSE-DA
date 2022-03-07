@@ -9,6 +9,18 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/ast3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/asteroid1" />
+
+    <ImageView
+        android:id="@+id/ast2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/asteroid4" />
+
+    <ImageView
         android:id="@+id/ast1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

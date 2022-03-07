@@ -1,51 +1,59 @@
 package com.lazykeru.tp2;
 
-import android.animation.ObjectAnimator;
+
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Handler;
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.lazykeru.tp2.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
     String _title = "Star Wars TP2";
-    int gameState = 0;
+    boolean isOver = true;
     /**
      * Tells us the state of the game
-     * 0 : Game is ready to start
-     * 1 : Game is live
-     * 2 : Game is over
+     * true : Game is ready to start
+     * false : Game is live
      **/
+    private SensorManager mSensorManager;
+    private Sensor accelerometer;
+
+
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(_title);
+        // on recupere l accelerometre a partir du SensorManager
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        // on associe l ecouteur d’evenements au SensorManager
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float gammaX = event.values[0], gammaY = event.values[1], gammaZ = event.values[2];
+        System.out.println("Valeurs accelerometre:" + gammaX + "," + gammaY + "," + gammaZ);
+        PlayScreen _playScreen
+                = (PlayScreen) this.getSupportFragmentManager()
+                .findFragmentById(R.id.play_screen);
+        _playScreen.updateAccelerometer(gammaX, gammaY, gammaZ);
     }
 
     // Function so StartScreen fragment can tell the PlayScreen fragment that we are playing
     public void startGame(){
-        this.gameState = 1;
+        isOver = false;
         PlayScreen _playScreen
                 = (PlayScreen) this.getSupportFragmentManager()
                 .findFragmentById(R.id.play_screen);
@@ -54,68 +62,10 @@ public class MainActivity extends AppCompatActivity{
 
     // Function so PlayScreen fragment can tell the StartScreen fragment that we are dead
     public void endGame(){
-        this.gameState = 1;
+        isOver = true;
         StartScreen _startScreen
                 = (StartScreen) this.getSupportFragmentManager()
                 .findFragmentById(R.id.start_screen);
         _startScreen.endGame();
     }
 }
-
-/**
-public class MainActivity extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-} **/
