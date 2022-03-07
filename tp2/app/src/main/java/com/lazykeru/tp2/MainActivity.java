@@ -25,6 +25,14 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity{
     String _title = "Star Wars TP2";
+    int gameState = 0;
+    /**
+     * Tells us the state of the game
+     * 0 : Game is ready to start
+     * 1 : Game is live
+     * 2 : Game is over
+     **/
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState){
@@ -33,6 +41,24 @@ public class MainActivity extends AppCompatActivity{
         // Tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(_title);
+    }
+
+    // Function so StartScreen fragment can tell the PlayScreen fragment that we are playing
+    public void startGame(){
+        this.gameState = 1;
+        PlayScreen _playScreen
+                = (PlayScreen) this.getSupportFragmentManager()
+                .findFragmentById(R.id.play_screen);
+        _playScreen.StartGame();
+    }
+
+    // Function so PlayScreen fragment can tell the StartScreen fragment that we are dead
+    public void endGame(){
+        this.gameState = 1;
+        StartScreen _startScreen
+                = (StartScreen) this.getSupportFragmentManager()
+                .findFragmentById(R.id.start_screen);
+        _startScreen.endGame();
     }
 }
 

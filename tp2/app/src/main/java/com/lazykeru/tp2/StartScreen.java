@@ -1,5 +1,6 @@
 package com.lazykeru.tp2;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,9 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-public class StartScreen extends Fragment {
-
-    View.OnClickListener clickListener = (View.OnClickListener) new View.OnClickListener(){
-        public void onClick(View view) {
-            Button button = (Button) view.findViewById(R.id.start_button);
-            button.setVisibility(View.INVISIBLE);
-        }
-    };
+public class StartScreen extends Fragment{
+    private Button startButton;
+    private MainActivity mainActivity;
 
     @Override
     public View onCreateView(
@@ -24,10 +20,34 @@ public class StartScreen extends Fragment {
             Bundle savedInstanceState
     ){
         View view = inflater.inflate(R.layout.screen_start, container, false);
-        Button button = (Button) view.findViewById(R.id.start_button);
-        button.setText("Start");
-        button.setOnClickListener(this.clickListener);
+        startButton = (Button) view.findViewById(R.id.start_button);
+        startButton.setText("Start");
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGame();
+            }
+        });
         return view;
+    }
 
+    // Called when a fragment is first attached to its context.
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof MainActivity) {
+            this.mainActivity = (MainActivity) context;
+        }
+    }
+
+    public void startGame(){
+        startButton.setVisibility(View.INVISIBLE);
+        this.mainActivity.startGame();
+    }
+
+    public void endGame(){
+        startButton.setVisibility(View.VISIBLE);
+        startButton.setText("Game over Restart");
     }
 }

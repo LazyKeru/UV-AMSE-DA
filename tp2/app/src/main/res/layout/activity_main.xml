@@ -26,13 +26,13 @@
             android:layout_height="match_parent">
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView3"
+                android:id="@+id/play_screen"
                 android:name="com.lazykeru.tp2.PlayScreen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView2"
+                android:id="@+id/start_screen"
                 android:name="com.lazykeru.tp2.StartScreen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

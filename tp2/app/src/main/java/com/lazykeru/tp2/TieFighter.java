@@ -3,23 +3,28 @@ package com.lazykeru.tp2;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
+
+import androidx.fragment.app.Fragment;
+
 import java.util.concurrent.TimeUnit;
 
 
 public class TieFighter{
     View TieFighter;
     View Explosion;
-    float x, y, delta_x, delta_y;
+    PlayScreen parent;
+    float delta_x, delta_y;
     Rect hitBox;
     boolean isMoving;
     boolean isAlive;
 
-    public TieFighter(View TieFighter,View Explosion){
+    public TieFighter(View TieFighter,View Explosion, PlayScreen parent){
+        this.parent = parent;
         this.TieFighter = TieFighter;
         this.Explosion = Explosion;
         this.Explosion.setVisibility(View.INVISIBLE);
-        this.isAlive = true;
-        this.isMoving = false;
+        // isAlive and isMoving False, as the game hasn't yet started
+        setInactive();
         setSizeTieFighter(200);
         setSizeExplosion(150);
         setHitBox();
@@ -38,6 +43,24 @@ public class TieFighter{
             }
         }
     };
+
+    // Function called to reset the game and state of the fighter to the starting game states
+    public void setInactive(){
+        this.isAlive = false;
+        this.isMoving = false;
+        this.TieFighter.setVisibility(View.INVISIBLE);
+        this.Explosion.setVisibility(View.INVISIBLE);
+    }
+
+    public void setActive(){
+        this.isAlive = true;
+        this.TieFighter.setVisibility(View.VISIBLE);
+    }
+
+    public void startGame(){
+        setActive();
+        // Could add more function to update the speed of the fighter, etc ...
+    }
 
     public void setHitBox() {
         int [] posistion = new int[2];
@@ -94,5 +117,11 @@ public class TieFighter{
     public void tieCrashed(){
         this.isAlive = false;
         explosion();
+        this.parent.Collision();
+    }
+
+    public void stopGame(){
+        this.TieFighter.setVisibility(View.INVISIBLE);
+        this.Explosion.setVisibility(View.INVISIBLE);
     }
 }

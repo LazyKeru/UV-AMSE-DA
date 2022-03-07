@@ -14,6 +14,7 @@ public class Joystick {
     float delta_fx; // starting delta y of finger
     float delta_fy; // starting delta x of finger
     TieFighter tieFighter;
+    boolean active;
 
     public Joystick(View padOutline, View padCenter,TieFighter tieFighter) {
         this.padCenter = padCenter;
@@ -25,6 +26,34 @@ public class Joystick {
         );
         this.tieFighter = tieFighter;
         this.tieFighter.movingTie.run(); // Starts the runnable to move the TieFighter
+        this.setInactive(); // The game has not yet started
+    }
+
+    public void setInactive(){
+        this.padCenter.setVisibility(View.INVISIBLE);
+        this.padOutline.setVisibility(View.INVISIBLE);
+        this.active = false;
+    }
+
+    public void setActive(){
+        this.padCenter.setVisibility(View.VISIBLE);
+        this.padOutline.setVisibility(View.VISIBLE);
+        this.active = true;
+    }
+
+    public void startGame(){
+        this.setActive();
+        // this.tieFighter.movingTie.run(); // Starts the runnable to move the TieFighter will be herre once we stop is in stop game
+        // Could add more functions to call when starting the game
+    }
+
+    public void stopGame(){
+        this.setInactive();
+        // pad didn't reset when the joystick dissapeared : so the ACTION_CANCEL doesn't work in this scenario
+        this.setPadDefaultPosition(); //reset pad to default position
+        this.tieFighter.setIsMoving(false); //set movement to false
+        // this.tieFighter.movingTie.stop(); // need to add a function that could stop the runnable !
+        // Could add more functions to call when starting the game
     }
 
     public  void setPadDefaultPosition(){
@@ -65,6 +94,7 @@ public class Joystick {
     }
 
     public boolean onTouch(View v, MotionEvent e){
+        if(this.active==false){return false;}
         switch (e.getAction()){
             case MotionEvent.ACTION_DOWN:
                 initPadDefaultPosition(); // Not the cleanest way to get the initial X and Y
@@ -86,8 +116,8 @@ public class Joystick {
                 ); // the ship should move
                 break;
             case MotionEvent.ACTION_CANCEL: // finger exits the screen surface
-            case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 setPadDefaultPosition();
                 this.tieFighter.setIsMoving(
                         false
