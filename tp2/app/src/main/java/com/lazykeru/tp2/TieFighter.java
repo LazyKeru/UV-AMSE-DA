@@ -1,8 +1,15 @@
 package com.lazykeru.tp2;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 
 import androidx.fragment.app.Fragment;
 
@@ -26,7 +33,6 @@ public class TieFighter{
         // isAlive and isMoving False, as the game hasn't yet started
         setInactive();
         setSizeTieFighter(200);
-        setSizeExplosion(150);
         setHitBox();
     }
 
@@ -58,6 +64,8 @@ public class TieFighter{
     }
 
     public void startGame(){
+        TieFighter.setY(0);
+        TieFighter.setX(0);
         setActive();
         // Could add more function to update the speed of the fighter, etc ...
     }
@@ -100,21 +108,34 @@ public class TieFighter{
         this.TieFighter.getLayoutParams().width = size;
     }
 
-    public void setSizeExplosion(int size) {
-        this.Explosion.getLayoutParams().height = size;
-        this.Explosion.getLayoutParams().width = size;
-    }
-
     public void explosion(){
         int[] location = new int[2];
-        this.TieFighter.getLocationOnScreen(location);
-        this.Explosion.setY(location[1]);
-        this.Explosion.setX(location[0]);
-        this.Explosion.setVisibility(View.VISIBLE);
-        this.TieFighter.setVisibility(View.INVISIBLE);
+        TieFighter.getLocationOnScreen(location);
+        Explosion.setVisibility(View.VISIBLE);
+        Explosion.setAlpha(1f); // Make it visible again
+        Explosion.setScaleX(0f); // Put to size
+        Explosion.setScaleY(0f); // Put to size
+        Explosion.setY(
+                (TieFighter.getY()+TieFighter.getHeight()/2) // Top of the Tie fighter + half it's height
+                - (Explosion.getHeight()/2) // half the height of the explosion removed
+                //Should center the explosion
+        );
+        //SAME AS ABOVE
+        Explosion.setX(
+                (TieFighter.getX()+TieFighter.getWidth()/2)
+                        - (Explosion.getWidth()/2)
+                //Should center the explosion to the TieFighter
+        );
+        Explosion.animate()
+                .alpha(0f)
+                .scaleY(10f)
+                .scaleX(10f)
+                .setDuration(1000);
+        TieFighter.setVisibility(View.INVISIBLE);
     }
 
     public void tieCrashed(){
+        if(isAlive == false){return;}
         this.isAlive = false;
         explosion();
         this.parent.Collision();
@@ -122,6 +143,6 @@ public class TieFighter{
 
     public void stopGame(){
         this.TieFighter.setVisibility(View.INVISIBLE);
-        this.Explosion.setVisibility(View.INVISIBLE);
+        //this.Explosion.setVisibility(View.INVISIBLE);
     }
 }
