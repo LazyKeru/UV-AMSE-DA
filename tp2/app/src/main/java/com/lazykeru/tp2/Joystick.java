@@ -66,10 +66,43 @@ public class Joystick {
         this.origin_y = this.padCenter.getY();
     }
 
+    /** Circle restraints **/
     public void setPadPosition(float x, float y) {
+        float baseRadius = this.padOutline.getMeasuredHeight()/2; // Getting the radius of the pad outline
+        float xOffSet = x - this.origin_x; // Gets the offSet of x from the x origin
+        float yOffSet = y - this.origin_y; // Gets the offSet of y from the y origin
+        float lengthOffset =
+                (float) Math.sqrt(
+                        Math.pow(xOffSet, 2)
+                        + Math.pow(yOffSet, 2)
+                ); // Getting the displacement of the padCenter from it's center
+        System.out.println("displacement" + lengthOffset);
+        System.out.println("radius" + baseRadius);
+        if(lengthOffset<baseRadius){ // not offset
+            this.padCenter.setX(x);
+            this.padCenter.setY(y);
+        }else{
+            // did go out of bound
+            // will use the parallel triangles identity
+            float ratio = baseRadius/lengthOffset;
+            this.padCenter.setX(
+                    this.origin_x
+                            + (x - this.origin_x) * ratio
+            );
+            this.padCenter.setY(
+                    this.origin_y
+                            + (y - this.origin_y) * ratio
+            );
+
+        }
+    }
+
+    /** Square restraints **/
+    /**
+     public void setPadPosition(float x, float y) {
         float[] XBorders = new float[] {
                 this.padOutline.getX() - (float)(0.15 * this.padOutline.getWidth()),
-                this.padOutline.getX()+ this.padOutline.getWidth() - this.padCenter.getWidth()+(float)(0.15 * this.padOutline.getWidth())};
+                this.padOutline.getX() + this.padOutline.getWidth() - this.padCenter.getWidth()+(float)(0.15 * this.padOutline.getWidth())};
         float[] YBorders = new float[] {
                 this.padOutline.getY() - (float)(0.15 * this.padOutline.getHeight()),
                 this.padOutline.getY()+ this.padOutline.getHeight()- this.padCenter.getHeight()+(float)(0.15 * this.padOutline.getHeight())};
@@ -81,6 +114,7 @@ public class Joystick {
         }
         return;
     }
+     **/
 
     public void updateLatestFingerPosition(MotionEvent e){
         this.fx = e.getRawX();
@@ -108,8 +142,8 @@ public class Joystick {
                         this.fy + this.delta_fy
                 );
                 tieFighter.updateDelta(
-                        (this.padCenter.getX() - this.origin_x) / 5,
-                        (this.padCenter.getY() - this.origin_y) / 5
+                        (this.padCenter.getX() - this.origin_x) / 10,
+                        (this.padCenter.getY() - this.origin_y) / 10
                 );
                 this.tieFighter.setIsMoving(
                         true
