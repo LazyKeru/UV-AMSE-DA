@@ -64,8 +64,8 @@ public class TieFighter{
     }
 
     public void startGame(){
-        TieFighter.setY(0);
-        TieFighter.setX(0);
+        TieFighter.setY(0 + (parent.getView().getHeight()/2) - (TieFighter.getHeight()/2));
+        TieFighter.setX(0 + (parent.getView().getWidth()/2) - (TieFighter.getWidth()/2));
         setActive();
         // Could add more function to update the speed of the fighter, etc ...
     }
@@ -86,11 +86,23 @@ public class TieFighter{
     }
 
     public void updateY(float delta_y) {
-        TieFighter.setY(TieFighter.getY() + delta_y);
+        float y = TieFighter.getY() + delta_y;
+        if(
+                (y < parent.getView().getHeight() - TieFighter.getHeight()/2)
+                        && (y > 0 - TieFighter.getHeight()/2)
+        ){
+            TieFighter.setY(y);
+        }
     }
 
     public void updateX(float delta_x) {
-        TieFighter.setX(TieFighter.getX() + delta_x);
+        float x = TieFighter.getX() + delta_x;
+        if(
+                (x < parent.getView().getWidth() - TieFighter.getWidth()/2)
+                        && (x > 0 - TieFighter.getWidth()/2)
+        ){
+            TieFighter.setX(x);
+        }
     }
 
     public void updateDelta(float delta_x, float delta_y){
