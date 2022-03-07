@@ -15,6 +15,18 @@
         app:srcCompat="@drawable/asteroid2" />
 
     <ImageView
+        android:id="@+id/tieFighter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/tie" />
+
+    <ImageView
+        android:id="@+id/explosion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/explosion" />
+
+    <ImageView
         android:id="@+id/jOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,17 +41,5 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="0.40in"
         app:srcCompat="@drawable/pad_center" />
-
-    <ImageView
-        android:id="@+id/tieFighter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/tie" />
-
-    <ImageView
-        android:id="@+id/explosion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/explosion" />
 
 </FrameLayout>

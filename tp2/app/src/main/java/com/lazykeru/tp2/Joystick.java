@@ -108,8 +108,8 @@ public class Joystick {
                         this.fy + this.delta_fy
                 );
                 tieFighter.updateDelta(
-                        (this.padCenter.getX() - this.origin_x) / 4,
-                        (this.padCenter.getY() - this.origin_y) / 4
+                        (this.padCenter.getX() - this.origin_x) / 5,
+                        (this.padCenter.getY() - this.origin_y) / 5
                 );
                 this.tieFighter.setIsMoving(
                         true

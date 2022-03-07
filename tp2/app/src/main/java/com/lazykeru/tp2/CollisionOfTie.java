@@ -6,6 +6,7 @@ import android.os.Handler;
 public class CollisionOfTie {
     TieFighter tieFighter;
     Asteroid asteroid;
+
     public CollisionOfTie(TieFighter tieFighter, Asteroid asteroid){
         setTieFighter(tieFighter);
         setAsteroid(asteroid);
@@ -32,6 +33,8 @@ public class CollisionOfTie {
     }
 
     public boolean areTheyInCollision(){
+        int offset = this.tieFighter.TieFighter.getWidth()/5;
+        this.asteroid.hitBox.inset(offset, offset);
         return(this.tieFighter.hitBox.intersect(this.asteroid.hitBox));
     }
 
